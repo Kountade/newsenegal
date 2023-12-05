@@ -1,0 +1,1 @@
+web: gunicorn archive_senegal.wsgi:application --log-file - --log-level debug
