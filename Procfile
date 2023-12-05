@@ -1,3 +1,3 @@
-web: gunicorn archive_senegal.wsgi
+web: gunicorn senegal.wsgi
 
 
