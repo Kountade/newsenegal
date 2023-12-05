@@ -1,82 +1,75 @@
 from django.shortcuts import render
 
 # Create your views here.
+import requests  # Importez requests pour effectuer des requêtes HTTP
 from django.shortcuts import render
 from django.http import HttpResponse
 from .models import *
-from django.contrib.auth.models import User
 
-# Create your views here.
+
+def news(request):
+ #   try:
+    url = f'https://newsdata.io/api/1/news?country=sn&category=politics&apikey=pub_33467774e35656a9e0c14a93978036b649c82'
+    response = requests.get(url)
+    # Raise an exception for bad responses (4xx and 5xx status codes)
+    response.raise_for_status()
+    data = response.json()
+
+    results = data["results"]
+    # Add this line to inspect the structure of the data dictionary
+
+    # Adjust the code based on the actual structure of the API response
+    # Use get to provide a default empty list if 'articles' key is not present
+   # articles = data.get('articles', [])
+
+    context = {
+        'results': results
+    }
+    return render(request, 'pages/news.html', context)
+
+  #  except requests.exceptions.RequestException as e:
+    # Handle request errors (e.g., network issues, API errors)
+  #  context = {
+#        'error_message': f"Error fetching news: {e}"
+  #   :#   }
+ #   return render(request, 'pages/error.html', context)
 
 
 def home(request):
-    myservice = Services.objects.all()
-    myrewies = Reviews.objects.all()
-    myblog = Blogs.objects.all()
+    url = f'https://newsdata.io/api/1/news?country=sn&apikey=pub_33467774e35656a9e0c14a93978036b649c82'
+    response = requests.get(url)
+    # Raise an exception for bad responses (4xx and 5xx status codes)
+    response.raise_for_status()
+    data = response.json()
+
+    results = data["results"]
 
     context = {
-        "myservice": myservice,
-        "myrewies": myrewies,
-        "myblog": myblog
+        'results': results
     }
 
-    return render(request, "solution/home.html", context,)
+    return render(request, 'pages/index.html', context)
 
 
-def blogs(request):
-    myblog = Blogs.objects.all()
-    context = {
-        "myblog": myblog
-    }
-    return render(request, "solution/blogs.html", context)
+def politique(request):
+    url = f'https://newsdata.io/api/1/news?country=sn&apikey=pub_33467774e35656a9e0c14a93978036b649c82'
+    response = requests.get(url)
+    # Raise an exception for bad responses (4xx and 5xx status codes)
+    response.raise_for_status()
+    data = response.json()
 
-
-def blogdetail(request, title: str):
-    try:
-        blogdetaile = Blogs.objects.get(title=title)
-
-    except Blogs.DoesNotExist:
-        raise ("le poste n'excite pas")
-    return render(request, "solution/blogdetail.html", {"blogdetaile": blogdetaile})
-
-
-def service(request):
-
-    myservice = Services.objects.all()
+    results = data["results"]
 
     context = {
-        "myservice": myservice
+        'results': results
     }
 
-    return render(request, "solution/services.html", context)
+    return render(request, 'pages/politique.html', context)
 
+# Create your views here.
 
-def pricing(request):
-    myprising = Pricings.objects.all()
+# views.py
 
-    context = {
-        "myprising": myprising
-    }
+# views.py
 
-    return render(request, "solution/pricing.html", context)
-
-
-def reviews(request):
-    myrewies = Reviews.objects.all()
-
-    context = {
-        "myrewies": myrewies
-    }
-    return render(request, "solution/pages/home.html", context)
-
-
-def contact(request):
-    return render(request, "solution/contact.html")
-
-
-def login(request):
-    return render(request, "solution/login.html")
-
-
-def register(request):
-    return render(request, "solution/register.html")
+# newsapp/views.py
