@@ -1,2 +1,2 @@
-web: gunicorn senegal.wsgi
+web: gunicorn archive_senegal.wsgi
 
