@@ -1,2 +1,0 @@
-web: gunicorn senegal.wsgi
-
