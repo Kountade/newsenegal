@@ -41,11 +41,12 @@ def home(request):
     # Raise an exception for bad responses (4xx and 5xx status codes)
     response.raise_for_status()
     data = response.json()
-
+    newsblog = blog.objects.all()
     results = data["results"]
 
     context = {
-        'results': results
+        'results': results,
+        'newsblog': newsblog,
     }
 
     return render(request, 'pages/index.html', context)
@@ -81,6 +82,17 @@ def business(request):
     }
 
     return render(request, 'pages/bussness.html', context)
+
+
+def blogsene(request):
+
+    newsblog = blog.objects.all()
+    context = {
+
+        "newsblog": newsblog
+    }
+    return render(request, 'pages/blogs.html', context)
+
 
 # Create your views here.
 
