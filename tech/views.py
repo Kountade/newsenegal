@@ -66,6 +66,22 @@ def politique(request):
 
     return render(request, 'pages/politique.html', context)
 
+
+def business(request):
+    url = f'https://newsdata.io/api/1/news?country=sn&category=business&apikey=pub_33467774e35656a9e0c14a93978036b649c82'
+    response = requests.get(url)
+    # Raise an exception for bad responses (4xx and 5xx status codes)
+    response.raise_for_status()
+    data = response.json()
+
+    results = data["results"]
+
+    context = {
+        'results': results
+    }
+
+    return render(request, 'pages/bussness.html', context)
+
 # Create your views here.
 
 # views.py
