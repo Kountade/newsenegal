@@ -41,7 +41,7 @@ def home(request):
     # Raise an exception for bad responses (4xx and 5xx status codes)
     response.raise_for_status()
     data = response.json()
-    newsblog = blog.objects.all()
+    newsblog = blog.objects.all().order_by('-date')[:4]
     results = data["results"]
 
     context = {
