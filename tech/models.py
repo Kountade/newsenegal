@@ -1,5 +1,6 @@
 from django.db import models
 
+
 # Create your models here.
 from django.contrib.auth.models import User
 
@@ -7,7 +8,7 @@ from django.contrib.auth.models import User
 
 
 class blog(models.Model):
-
+    category = models.CharField(max_length=5000)
     title = models.CharField(max_length=5000)
     description = models.TextField()
     image = models.ImageField()

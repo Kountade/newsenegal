@@ -36,7 +36,7 @@ def news(request):
 
 
 def home(request):
-    url = f'https://newsdata.io/api/1/news?country=sn&apikey=pub_33467774e35656a9e0c14a93978036b649c82'
+    url = f'https://newsdata.io/api/1/news?country=sn&category=top&apikey=pub_33467774e35656a9e0c14a93978036b649c82'
     response = requests.get(url)
     # Raise an exception for bad responses (4xx and 5xx status codes)
     response.raise_for_status()
@@ -53,6 +53,41 @@ def home(request):
 
 
 def politique(request):
+    url = f'https://newsdata.io/api/1/news?country=sn&category=politics&apikey=pub_33467774e35656a9e0c14a93978036b649c82'
+    response = requests.get(url)
+    # Raise an exception for bad responses (4xx and 5xx status codes)
+    response.raise_for_status()
+    data = response.json()
+
+    results = data["results"]
+
+    context = {
+        'results': results
+    }
+
+    return render(request, 'pages/politique.html', context)
+
+
+def politique_detail(request, news_id):
+    url = f'https://newsdata.io/api/1/news?country=sn&category=politics&apikey=pub_33467774e35656a9e0c14a93978036b649c82'
+    response = requests.get(url)
+    # Raise an exception for bad responses (4xx and 5xx status codes)
+    response.raise_for_status()
+    data = response.json()
+
+    results = data["results"]
+
+    # Trouver l'article spécifique par ID ou index
+    specific_news = results[news_id]
+
+    context = {
+        'specific_news': specific_news
+    }
+
+    return render(request, 'pages/politique_detail.html', context)
+
+
+def politique(request):
     url = f'https://newsdata.io/api/1/news?country=sn&apikey=pub_33467774e35656a9e0c14a93978036b649c82'
     response = requests.get(url)
     # Raise an exception for bad responses (4xx and 5xx status codes)
@@ -66,6 +101,26 @@ def politique(request):
     }
 
     return render(request, 'pages/politique.html', context)
+
+
+def politique_detail(request, news_title):
+    url = f'https://newsdata.io/api/1/news?country=sn&apikey=pub_33467774e35656a9e0c14a93978036b649c82'
+    response = requests.get(url)
+    # Raise an exception for bad responses (4xx and 5xx status codes)
+    response.raise_for_status()
+    data = response.json()
+
+    results = data["results"]
+
+    # Trouver l'article spécifique par titre
+    specific_news = next(
+        (news for news in results if news["title"] == news_title), None)
+
+    context = {
+        'specific_news': specific_news
+    }
+
+    return render(request, 'pages/politique_detail.html', context)
 
 
 def business(request):
@@ -92,6 +147,24 @@ def blogsene(request):
         "newsblog": newsblog
     }
     return render(request, 'pages/blogs.html', context)
+
+
+def blogdetail(request, title: str):
+    try:
+        newsblog = blog.objects.get(title=title)
+
+    except blog.DoesNotExist:
+        raise ("le poste n'excite pas")
+    return render(request, "pages/blog_detail.html", {"newsblog": newsblog})
+
+
+def newsdetail(request, title: str):
+    try:
+        data = results.objects.get(title=title)
+
+    except blog.DoesNotExist:
+        raise ("le poste n'excite pas")
+    return render(request, "pages/news_detail.html", {"newsblog": newsblog})
 
 
 # Create your views here.
