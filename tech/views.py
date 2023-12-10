@@ -49,7 +49,7 @@ def home_detail(request, news_title):
     # Handle request errors (e.g., network issues, API errors)
   #  context = {
 #        'error_message': f"Error fetching news: {e}"
-  #   :#   }
+  #   :#
  #   return render(request, 'pages/error.html', context)
 
 
@@ -167,22 +167,13 @@ def blogsene(request):
     return render(request, 'pages/blogs.html', context)
 
 
-def blogdetail(request, title: str):
+def blog_detail(request, title: str):
     try:
-        newsblog = blog.objects.get(title=title)
+        newsblogd = blog.objects.get(title=title)
 
     except blog.DoesNotExist:
         raise ("le poste n'excite pas")
-    return render(request, "pages/blog_detail.html", {"newsblog": newsblog})
-
-
-def newsdetail(request, title: str):
-    try:
-        data = results.objects.get(title=title)
-
-    except blog.DoesNotExist:
-        raise ("le poste n'excite pas")
-    return render(request, "pages/news_detail.html", {"newsblog": newsblog})
+    return render(request, "pages/blog_detail.html", {"newsblogd": newsblogd})
 
 
 # Create your views here.

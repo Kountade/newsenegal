@@ -13,7 +13,7 @@ urlpatterns = [
     path('sports', views.sports, name='sports-page'),
     path('bussness', views.business, name='bussness-page'),
     path('blogs', views.blogsene, name='blogs-page'),
-    # path('newsdetail/<str:title>', views.newsdetail, name="newsdetail-page"),
+    path('blogdetails/<str:title>', views.blog_detail, name="blogdetail"),
     path('home/<path:news_title>/',
          views.home_detail, name='home_detail'),
     path('politique/<path:news_title>/',
